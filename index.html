@@ -17,13 +17,10 @@
     }
     AFRAME.registerComponent('markerhandler', {
         init: function () {
-            this.el.sceneEl.addEventListener('markerFound', () => {
-                // redirect to custom URL
-                onFoundedMarker()
-            });
-            this.el.sceneEl.addEventListener('markerLost', () => {
-                // redirect to custom URL
-                onLostMarker()
+            this.el.sceneEl.addEventListener('click', () => {
+                let box = document.querySelector("#test");
+                console.log(box.attributes);
+                box.setAttribute('visible', !box.attributes.visible)
             });
         }
     })
@@ -32,7 +29,8 @@
 <body style="margin : 0px; overflow: hidden;">
 <a-scene embedded arjs vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
     <a-marker-camera markerhandler preset='hiro'>
-        <a-box position='0 0.5 0' material='color: red;' value='7' animation__spin="property:rotation; from:0 0 0; to:0 360 0; startEvents:mouseenter;">
+        <a-box id="test" position='0 0.5 0' material='color: red;'>
+            <a-animation attribute="rotation" dur="3000" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
         </a-box>
     </a-marker-camera>
 </a-scene>
