@@ -8,15 +8,33 @@
     <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
     <title>AR proptotype</title>
 </head>
+<script>
+    const onFoundedMarker = () => {
+        console.log("Marker Found")
+    }
+    const onLostMarker = () => {
+        console.log("Marker Lost")
+    }
+    AFRAME.registerComponent('markerhandler', {
+        init: function () {
+            this.el.sceneEl.addEventListener('markerFound', () => {
+                // redirect to custom URL
+                onFoundedMarker()
+            });
+            this.el.sceneEl.addEventListener('markerLost', () => {
+                // redirect to custom URL
+                onLostMarker()
+            });
+        }
+    })
+</script>
 <body>
 <body style="margin : 0px; overflow: hidden;">
 <a-scene embedded arjs vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
-    <!-- create your content here. just a box for now -->
-    <a-box position='0 0.5 0' material='color: red;'>
-        <a-animation attribute="rotation" dur="9000" to="360 360 0" repeat="indefinite" easing="linear"></a-animation>
-    </a-box>
-    <!-- define a camera which will move according to the marker position -->
-    <a-marker-camera preset='hiro'></a-marker-camera>
+    <a-marker-camera markerhandler preset='hiro'>
+        <a-box position='0 0.5 0' material='color: red;' value='7' animation__spin="property:rotation; from:0 0 0; to:0 360 0; startEvents:mouseenter;">
+        </a-box>
+    </a-marker-camera>
 </a-scene>
 </body>
 </body>
